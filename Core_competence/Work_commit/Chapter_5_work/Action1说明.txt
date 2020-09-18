@@ -1,0 +1,6 @@
+step1：安装Active perl
+step2：将triple_format_to_libfm.pl文件copy到perl.exe所在目录下
+step3：在perl.exe所在目录下执行命令
+perl triple_format_to_libfm.pl -in D:\开课吧课程资料\核心能力提升班商务智能方向004期\L5\L5-code\L5\libfm\ratings.dat -target 2 -delete_column 3 -separator "::"
+step4: 在libFM.exe所在目录下执行命令（注意：用SGD方式需要加上参数-method sgd -learn_rate 0.01 -regular '0,0,0.01' -init_stdev 0.1）
+libFM -task r -train ratings.dat.libfm -test ratings.dat.libfm -dim '1,1,8' -method sgd -learn_rate 0.01 -regular '0,0,0.01' -init_stdev 0.1 -out out_movielens.txt

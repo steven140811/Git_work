@@ -1,0 +1,26 @@
+Thinking1	在实际工作中，FM和MF哪个应用的更多，为什么
+Answer1    实际工作中FM应用的更多，因为MF只是解决两个特征之间的问题，而FM可以解决多个特征之间的问题，在企业中业务逻辑很复杂，数据的特征极多所以FM会应用的更多
+
+Thinking2	FFM与FM有哪些区别？
+Answer2    FM算法中每个特征只有一个隐向量，FM是FFM的特例，二次项参数有nk个
+           FFM算法中每个特征有多个隐向量，使用哪个，取决于和哪个向量进行点乘，加入了field的概念，二次项参数有nfk个，FFM的k值一般远小于FM的k值
+           FFM相比FM粒度会更细，计算时间上也比FM会更久
+
+Thinking3	DeepFM相比于FM解决了哪些问题，原理是怎样的
+Answer3    DeepFM = FM + DNN DeepFM除了有FM的功能还融入了深度神经网络，通过FM提取低阶特征，通过DNN提取高阶特征，所以DeepFM解决了FM的高阶特征提取问题
+           因为DeepFM是一种end-to-end的模型结构，所以无须特征工程
+           DeepFM结构包括Sparse Features、Dense Embeddings、FM Layer、Deep Layer、Output Units五个部分
+
+Thinking4	Surprise工具中的baseline算法原理是怎样的？BaselineOnly和KNNBaseline有什么区别？
+Answer4    Baseline算法：基于统计的基准预测线打分，原理是bui = miu + bu + bi，通过ALS进行优化
+           BaselineOnly和KNNBaseline的区别在于BaselineOnly是直接计算，KNNBaseline是基于邻域的（通过邻居来完成预估）
+
+Thinking5	基于邻域的协同过滤都有哪些算法，请简述原理
+Answer5    有UserCF和ItemCF
+           UserCF原理：1、找到和目标用户兴趣相似的用户集合
+                       2、用户u对物品i的相似度，等价于K个邻居对物品i的兴趣度
+                       3、为用户u生成推荐列表
+           ItemCF原理：1、计算物品之间相似度
+                       2、用户u对物品i的兴趣度，等价于物品i的K个邻居物品受到用户u的兴趣度
+                       3、为用户u生成推荐列表
+                       
