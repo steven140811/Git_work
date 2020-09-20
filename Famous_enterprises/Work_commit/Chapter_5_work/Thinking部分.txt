@@ -1,0 +1,23 @@
+Thinking1	在CTR点击率预估中，使用GBDT+LR的原理是什么？
+Answer1    通过GBDT将特征进行组合，然后传入给线性分类器；LR对GBDT产生的输入数据进行分类（使用L1正则化防止过拟合）
+
+Thinking2	Wide & Deep的模型结构是怎样的，为什么能通过具备记忆和泛化能力（memorization and generalization）
+Answer2    Wide & Deep模型是由线性模型和DNN模型组成的，其中线性模型通过学习items或者features之间的相关频率，在历史数据中探索相关性的可行性即memorization
+           DNN模型基于相关性的传递，去探索一些在过去没有出现过的特征组合即generalization
+
+Thinking3	在CTR预估中，使用FM与DNN结合的方式，有哪些结合的方式，代表模型有哪些？
+Answer3    DeepFM, 并行结构，FM和DNN分开计算
+           NFM,串行架构，将FM的结果作为DNN的输入
+
+Thinking4	GBDT和随机森林都是基于树的算法，它们有什么区别？
+Answer4    GBDT是一种Boosting，通过将弱学习器提升为强学习器的集成方法来提高预测精度
+           Random Forest是一种Bagging，通过自助采样的方法生成众多并行式的分类器，通过“少数服从多数”的原则来确定最终的结果
+
+Thinking5	item流行度在推荐系统中有怎样的应用
+Answer5    高流行度的item所占比例很小
+           低流行度的item评分差异大（越不流行=>自己的喜好来判断）
+           高流行度的item评分差异小（越流行=>群体的喜好影响力大）
+           可以解决冷启动问题、协同过滤中的TopN推荐、电商网站特卖（打造爆款）、婚恋网站让更多人活跃起来
+
+
+
