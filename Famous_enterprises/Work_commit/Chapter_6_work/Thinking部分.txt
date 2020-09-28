@@ -1,0 +1,25 @@
+Thinking1	什么是近似最近邻查找，常用的方法有哪些
+Answer1    ANN，Approximate Nearest Neighbor，近似最近邻检索，在牺牲可接受范围内的精度的情况下提高检索效率
+           最近邻检索是线性复杂度的，当处理大规模数据时可以采用ANN方法
+           常用的方法有：LSH（Locality-Sensitive Hashing）、MinHash、MinHash+LSH、MinHashLSHForest、SimHash
+
+Thinking2	为什么两个集合的minhash值相同的概率等于这两个集合的Jaccard相似度
+Answer2    如果两个文档相似，那么他们会有很多的shingles也是相同的，海量数据，高维 => 矩阵非常大的时候，
+           目标需要找到一个Hash函数，将原来的Jaccard相似度计算，等同于降维后的相似度矩阵计算（Input Matrix => Signature Matrix）
+           原来文档的Jaccard相似度高，那么它们的hash值相同的概率高；原来文档的Jaccard相似度低，那么它们的hash值不相同的概率高
+           用Ci，Cj的MinHash值相等的概率，对他们的Jaccard相似度进行估计，使用Signature矩阵相似度用来近似估计原始矩阵Input Matrix的Jaccard相似度
+
+Thinking3	SimHash在计算文档相似度的作用是怎样的？
+Answer3    通过SimHash算法得到每篇文档的指纹（fingerprint），计算两个文档指纹的汉明距离，通常2篇文档的Hamming距离在3以内，就认为相似度比较高 => 两篇文档基本相同
+           Step1，设置SimHash的位数，比如32位，需要综合考虑存储成本以及数据集的大小
+           Step2，初始化SimHash，将各位初始化为0 
+           Step3，提取文本中的特征，比如采用2-Shingles
+           "the cat sat on the mat"=>{"the cat", "cat sat", "sat on", "on the", "the mat"} 
+           Step4，使用传统的hash函数计算各个word的hashcode
+           Step5，对各word的hashcode的每一位，如果该位为1，则simhash相应位的值加它的权重（通常是出现的频率）；否则减它的权重 
+           Step6，计算最后得到的32位的SimHash，如果该位大于0，则设为1；否则设为0 
+
+
+Thinking4	为什么YouTube采用期望观看时间作为评估指标
+Answer4    CTR指标对于视频搜索具有一定的欺骗性，所以论文提出采用期望观看时间作为评估指标
+
