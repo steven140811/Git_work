@@ -1,0 +1,13 @@
+Thinking1	什么是Graph Embedding，都有哪些算法模型
+Answer1    Graph Embedding是一种Embedding降维技术，可以有效的挖掘图网络中的节点特征表示
+           常用的算法模型有Deep Walk、Node2Vec、LINE、SDNE、Struc2Vec
+
+Thinking2	如何使用Graph Embedding在推荐系统，比如NetFlix 电影推荐，请说明简要的思路
+Answer2    对于用户来说，可以把用户的行为数据通过session进行切分，构成一张图（可以通过图来看隐含的关系），
+           然后对图进行Embedding，embedding后再放入后续的推荐系统中进行推荐
+
+Thinking3	数据探索EDA都有哪些常用的方法和工具
+Answer3    dataframe: df.value_counts()、df.isnull().any() 、df.isnull().sum() 、df.describe()、df.info()、df.columns
+           numpy: np.min()、np.max()、np.ptp()、np.mean()、np.std()、np.var()
+  
+
