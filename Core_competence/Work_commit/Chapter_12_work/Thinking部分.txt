@@ -1,0 +1,14 @@
+Thinking1	GCN/Graph Embedding 都有哪些应用场景
+Answer1    GCN：交通路网速度预测，社交网络分析，生物网络，金融风控，商品推荐，聊天机器人中的语义分析及意图识别
+           Graph Embedding：社交网络，生物信息，用户行为序列, 推荐系统, 计算广告
+
+Thinking2	在交通流量预测中，如何使用Graph Embedding，请说明简要的思路
+Answer2    将交通流量预测中的数据的顶点和边确定出来，生成图，再根据Graph Embedding进行特征提取，将图网络中的点用低维的向量表示，并且这些向量要能反应原有网络的特性
+
+Thinking3	在文本分类中，如何使用Graph Embedding，请说明简要的思路
+Answer3    借助NLP中的word2vec，也就是word embedding，word embedding的基本元素是word，在Graph中表示的就是Node，
+           word embedding是对构成一个句子中单词序列进行分析，在Graph Network中Node构成的序列就是Random Walk，给定当前访问起始节点，
+           从其邻居中随机采样节点作为下一个访问节点，重复此过程，直到访问序列长度满足预设条件，产生大量词序列（句子）
+
+
+
