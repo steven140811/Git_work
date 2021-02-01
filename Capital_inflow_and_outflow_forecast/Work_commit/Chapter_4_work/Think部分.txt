@@ -1,0 +1,61 @@
+Thinking1 如果你是某P2P租车的技术负责人，你会如何设计个性化推荐和搜索排序，阐述相似车型，搜索排序的设计方法，可能的embedding策略
+Answer1 针对搜索排序，相似车源推荐进行的实时个性化，基于业务需求，考虑搜索的目标；
+        点击率（CTR），提高商品购买的转化率等等；
+        对于双边市场，需要同时为市场两端用户买家（guest）和卖家（host）提供服务；
+        租客角度：需要根据位置，价格，车型，评论等因素排序来获得客户喜欢的listing；
+        车主角度：需要过滤掉那些有坏的评论，停留时间，人数，等其他因素而拒绝guest的listing，将这些listing排列的低一点；
+
+        List Embedding（车源嵌入）：
+        将每个车源 => 车源embedding
+        数据集由 N 个用户的点击会话 (Session) 组成，其中每个会话定义为一个由用户点击的 M个车源 id 组成的的不间断序列
+        只要用户连续两次点击时间间隔超过30分钟，就认为是一个新的Session （S集合）
+        目标是通过集合S，学习出每个房源listing的d维（ 32 维）embedding表示，让相似listing在embedding空间中距离更近
+        车源embedding，把每个用户连续点击过的车源Session看做一个句子，每个车源当做word，训练出车源的embedding
+
+        List Embedding的冷启动：
+        每天都有新的车源产生，冷启动在所难免
+        车主上传新车源时需要上传3个特征，位置，价格，车型
+        在和新上传车源具有相同车型和相同价格区间的车源中，找到3个地理位置最接近的车源，用这3个车源的embedding求平均作为新车源的embedding
+
+        List Embedding的评估：
+        用多种方式验证embedding的有效性
+        K-means 聚类，将embdding进行聚类，然后可以发现其在地理位置上的区分度
+        embeddng之间的余弦相似度
+        不同类型的listing之间的余弦相似度
+        不同价格范围的listing之间的余弦相似度
+        
+        User Type Embedding 和Listing Type Embedding：
+        学习type级别的embedding，而不是学习id级别的embedding
+        对于原始的Listing数据，比如位置，价格，车型，座位数等，基于一些硬性的规则生成每个Listing的类别
+        目的是将原本稀疏的数据（基于id），变得稠密（基于类型）很多session出现了共现
+        将User Type Embedding方式也采样相同的方法，即拥有一些相同的基础属性和相同行为的用户进行分桶
+        可以理解为，分别对用户和车源做了聚类，按聚类后的数据进行学习embedding，在更高一个维度（粗粒度）上获取长期兴趣
+
+        基于Embedding的实时个性化搜索：
+        计算用户的user type embedding与候选listing的listing type embedding之间的余弦相似度
+        推荐给用户相似度高的listing
+        Step1，准备3种embedding值，Listing Embedding，User Type Embedding和Listing Type Embedding
+        Step2，获取基础指标H∗
+             Hc: 用户过去两周内点击过的Listing id
+             Hk: 用户点击并且停留在listing详情页超过60s
+             Hs: 用户过去两周内跳过的Listing id（跳过的定义是那些排在前面但是用户没有点，反而点了后面的Listing)
+             Hw: 用户添加到Wish List中的Listing id
+             Hi: 用户联系了但是没有预定
+             Hb: 两周内用户预定的        
+        Step3，提取地区embedding
+            用户在进行Query的时候，地区是重要的特征，先通过H*获取用户的近期行为，因为listing embedding里面包含了地区之间的差异信息，
+            计算每个地区所有listing embedding的均值作为这个地区的embedding，代表用户对该地区的偏好。
+        Step4，计算Embedding Features
+            EmbClickSim，针对每一个候选的listing，计算候选listing的listing embedding与地区embedding之间的余弦相似度相似度，取最高值作为该listing的EmbClickSim取值
+            UserTypeListingTypeSim，计算每一个候选listing所在的listing type embedding和用户的user type embedding之间的相似度
+        Step5，在原有的Ranking Model中加入embedding features进行计算
+
+
+
+
+
+
+
+
+
+
