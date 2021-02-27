@@ -1,0 +1,16 @@
+跟助教陈老师学会了 从开源社区github上查看源码找问题
+
+陈旸老师给的源码如下：因为版本问题导致程序不能执行
+#maxlen为历史信息的长度，vocabulary_size为onehot的长度
+feature_columns += [VarLenSparseFeat('hist_merchant_id', maxlen=M, vocabulary_size=19111+1, embedding_dim=8, embedding_name='merchant_id'),
+                   VarLenSparseFeat('hist_action_type', maxlen=M, vocabulary_size=4+1, embedding_dim=4, embedding_name='action_type')]
+
+通过去github看源码（https://github.com/shenweichen/DeepCTR/blob/master/examples/run_din.py#L5）
+发现格式已经做调整
+结合源码对上述程序做如下调整：
+feature_columns += [VarLenSparseFeat(SparseFeat('hist_merchant_id', vocabulary_size=19111+1,embedding_dim=8,embedding_name='merchant_id'), maxlen=M),
+                        VarLenSparseFeat(SparseFeat('hist_action_type', 4 + 1,embedding_dim=4, embedding_name='action_type'), maxlen=M)]
+
+最终问题解决
+
+程序报错具体信息是最好的线索，按照它给出的是那个.py程序出的错，错误在第几行，就可以追本溯源最终找到报错的原因
